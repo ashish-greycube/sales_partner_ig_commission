@@ -1,0 +1,38 @@
+{
+ "creation": "2020-10-23 09:44:55.600988",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "item_group",
+  "commission_percent"
+ ],
+ "fields": [
+  {
+   "fieldname": "item_group",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Item Group",
+   "options": "Item Group",
+   "reqd": 1
+  },
+  {
+   "fieldname": "commission_percent",
+   "fieldtype": "Percent",
+   "in_list_view": 1,
+   "label": "Commission Percent",
+   "reqd": 1
+  }
+ ],
+ "istable": 1,
+ "modified": "2020-10-23 09:44:55.600988",
+ "modified_by": "Administrator",
+ "module": "Sales Partner Ig Commission",
+ "name": "Item Groupwise Commission CT",
+ "owner": "Administrator",
+ "permissions": [],
+ "quick_entry": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
+}
