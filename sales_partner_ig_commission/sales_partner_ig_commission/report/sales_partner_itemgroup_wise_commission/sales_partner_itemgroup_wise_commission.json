@@ -7,7 +7,7 @@
  "doctype": "Report",
  "idx": 0,
  "is_standard": "Yes",
- "modified": "2020-10-24 17:23:51.146959",
+ "modified": "2020-10-26 07:48:00.500086",
  "modified_by": "Administrator",
  "module": "Sales Partner Ig Commission",
  "name": "Sales Partner ItemGroup Wise Commission",
@@ -16,7 +16,7 @@
  "query": "select \ntpe.posting_date as \"PaymentDate:Date:100\",\ntpe.party as \"Customer:Link/Customer:130\",\nper.allocated_amount as \"Amount:Currency:100\",\ntpe.name as \"PaymentEntryReference:Link/Payment Entry:120\",\nper.reference_name as \"SalesInvoice:Link/Sales Invoice:100\",\nc.default_sales_partner As \"SalesPartner:Link/Sales Partner:120\",\nspigc.item_group as \"ItemGroup:Link/Item Group:120\", \nspigc.commission_percent as \"CommissionPercent:Percent:120\", \n(per.allocated_amount*spigc.commission_percent)/100 as \"CommissionAmount:Currency:120\"\nfrom `tabPayment Entry` tpe \ninner join `tabPayment Entry Reference` per on per.parent = tpe.name\nand per.reference_doctype = 'Sales Invoice'\ninner join tabCustomer  AS c ON c.name = tpe.party\ninner join `tabSales Invoice`  as si on per.reference_name = si.name\nINNER JOIN (\n    select parent, item_group\n    from `tabSales Invoice Item`\n    group by parent\n    having count(*) = 1\n) sit on sit.parent = si.name\nINNER JOIN `tabSales Partner` AS sp on c.default_sales_partner = sp.name\nINNER JOIN `tabItem Groupwise Commission CT` as spigc on spigc.parent = sp.name and sit.item_group = spigc.item_group\nwhere tpe.payment_type='Receive' \nand tpe.posting_date  >= %(from_date)s and tpe.posting_date  <= %(to_date)s \nUNION ALL\nselect \ntpe1.posting_date as PaymentDate,\ntpe1.party as Customer,\ntpe1.paid_amount as Amount,\ntpe1.name as PaymentEntryReference,\n'' as SalesInvoice,\nc.default_sales_partner As SalesPartner,\n'' as ItemGroup, \n0 as CommissionPercent, \n0 as CommissionAmount\nfrom `tabPayment Entry` tpe1 \ninner join tabCustomer  AS c ON c.name = tpe1.party\nINNER JOIN `tabSales Partner` AS sp on c.default_sales_partner = sp.name\nwhere tpe1.payment_type='Receive' and\ntpe1.name not in ( select distinct per.parent from `tabPayment Entry Reference` per )\nand tpe1.posting_date  >= %(from_date)s and tpe1.posting_date  <= %(to_date)s \nORDER BY 4 desc,2\n",
  "ref_doctype": "Sales Invoice",
  "report_name": "Sales Partner ItemGroup Wise Commission",
- "report_type": "Query Report",
+ "report_type": "Script Report",
  "roles": [
   {
    "role": "Accounts Manager"
