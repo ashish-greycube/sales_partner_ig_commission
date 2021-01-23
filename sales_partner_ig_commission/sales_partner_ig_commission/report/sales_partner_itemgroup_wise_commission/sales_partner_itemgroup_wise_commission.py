@@ -49,8 +49,8 @@ inner join `tabSales Invoice`  as si on per.reference_name = si.name
 INNER JOIN (
     select parent, item_group
     from `tabSales Invoice Item`
-    group by parent
-    having count(*) = 1
+    group by parent,item_group
+    having count(distinct parent,item_group) = 1
 ) sit on sit.parent = si.name
 INNER JOIN `tabSales Partner` AS sp on c.default_sales_partner = sp.name
 INNER JOIN `tabItem Groupwise Commission CT` as spigc on spigc.parent = sp.name and sit.item_group = spigc.item_group
